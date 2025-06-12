@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSCPL - Spiritual Assistant Login</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            color: #e53e3e;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .credentials {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e6fffa;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .credentials h3 {
+            margin: 0 0 10px 0;
+            color: #234e52;
+        }
+
+        .credentials p {
+            margin: 5px 0;
+        }
+
+        .spiritual-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #4a5568;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>🙏 DSCPL Login</h1>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Enter Spiritual Journey</button>
+        </form>
+        
+        <div class="spiritual-note">
+            💫 "Come to me, all you who are weary and burdened, and I will give you rest." - Matthew 11:28
+        </div>
+    </div>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSCPL - Your Personal Spiritual Assistant</title>
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        
+        .chatbox {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            background-color: #f8fbff;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 2px solid #667eea;
+            background-color: #f8fbff;
+            position: relative;
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            text-align: center;
+            font-size: 26px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25);
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #4a5568;
+            text-align: center;
+            padding: 8px;
+            background-color: #edf2f7;
+            margin: 0;
+        }
+        
+        .chatbox .message-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .chatbox p {
+            margin: 0;
+            padding: 14px;
+            border-radius: 12px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            max-width: 80%;
+            white-space: pre-wrap;
+        }
+        
+        .chatbox p.bot {
+            background-color: #e6fffa;
+            color: #234e52;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chatbox p.user {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chatbox p.bot strong {
+            color: #2d3748;
+            font-weight: bold;
+        }
+
+        .chatbox p.bot ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .chatbox p.bot li {
+            margin: 4px 0;
+        }
+        
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 16px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            background-color: white;
+            margin-right: 12px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        button {
+            padding: 14px 24px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-1px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .voice-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            padding: 14px;
+            margin-right: 12px;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .voice-button:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        .voice-button.listening {
+            background: #e53e3e !important;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .spiritual-notice {
+            color: #4a5568;
+            font-weight: bold;
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        .reset-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-size: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            DSCPL - Your Personal Spiritual Assistant 🙏
+            <button onclick="resetConversation()" class="reset-button" title="Start a new conversation">
+                🔄 New Conversation
+            </button>
+        </h1>
+        <p class="disclaimer">
+            🙏 DSCPL is your spiritual companion for daily devotion, prayer, meditation, and accountability. Let God's Word guide your journey.
+        </p>
+        <div id="chatbox" class="chatbox"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Share what's on your heart or choose a spiritual focus..." autofocus>
+            <button class="voice-button" onclick="startVoiceRecognition()" title="Use voice input">🎤</button>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <p class="spiritual-notice">
+            💫 Remember: "Be still and know that I am God" - Psalm 46:10 | DSCPL provides spiritual guidance only and is not a substitute for professional counseling or medical care.
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        let speechSynthesisUtterance;
+        let recognition = null;
+        let isListening = false;
+
+        function addMessageToChatbox(sender, message) {
+            const chatbox = document.getElementById('chatbox');
+            
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container';
+            
+            const messageElement = document.createElement('p');
+            messageElement.className = sender === 'user' ? 'user' : 'bot';
+            messageElement.innerHTML = `${sender === 'user' ? message : message}`;
+            messageContainer.appendChild(messageElement);
+
+            if (sender === 'bot') {
+                const readButton = document.createElement('button');
+                readButton.textContent = '🔊';
+                readButton.title = 'Read/Stop message';
+                readButton.style.padding = '10px';
+                readButton.style.marginLeft = '10px';
+                readButton.style.background = '#667eea';
+                readButton.style.borderRadius = '50%';
+                readButton.onclick = () => toggleReadMessage(message, readButton);
+                messageContainer.appendChild(readButton);
+            }
+
+            chatbox.appendChild(messageContainer);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function toggleReadMessage(message, button) {
+            if ('speechSynthesis' in window) {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    button.textContent = '🔊';
+                    button.style.background = '#667eea';
+                } else {
+                    if (speechSynthesisUtterance) {
+                        window.speechSynthesis.cancel();
+                    }
+                    
+                    speechSynthesisUtterance = new SpeechSynthesisUtterance(message);
+                    speechSynthesisUtterance.rate = 0.9;
+                    speechSynthesisUtterance.pitch = 1;
+                    
+                    // Update button when speech ends naturally
+                    speechSynthesisUtterance.onend = () => {
+                        button.textContent = '🔊';
+                        button.style.background = '#667eea';
+                    };
+                    
+                    window.speechSynthesis.speak(speechSynthesisUtterance);
+                    button.textContent = '⏹';
+                    button.style.background = '#e53e3e';
+                }
+            } else {
+                alert('Text-to-speech is not supported in your browser. Please use a modern browser like Chrome.');
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            console.log('sendMessage called with:', message);
+            
+            if (message) {
+                console.log('Sending message:', message);
+                addMessageToChatbox('user', message);
+                fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received response:', data);
+                    addMessageToChatbox('bot', data.response);
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    addMessageToChatbox('bot', 'Sorry, there was an error sending your message. Please try again.');
+                });
+                userInput.value = '';
+            } else {
+                console.log('Empty message, not sending');
+            }
+        }
+
+        function startVoiceRecognition() {
+            // Stop any ongoing speech synthesis
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+
+            // If already listening, stop it and return
+            if (isListening && recognition) {
+                console.log('Stopping speech recognition...');
+                try {
+                    recognition.stop();
+                } catch (error) {
+                    console.log('Error stopping recognition:', error);
+                }
+                
+                // Reset UI immediately
+                const voiceButton = document.querySelector('.voice-button');
+                voiceButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                voiceButton.textContent = '🎤';
+                voiceButton.classList.remove('listening');
+                isListening = false;
+                recognition = null;
+                return;
+            }
+
+            // Check browser support
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+                return;
+            }
+
+            try {
+                // Create new recognition instance
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                
+                // Configure recognition with minimal settings
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                // Update UI to show listening state
+                const voiceButton = document.querySelector('.voice-button');
+                voiceButton.style.background = '#e53e3e';
+                voiceButton.textContent = '🔴';
+                voiceButton.classList.add('listening');
+                isListening = true;
+
+                recognition.onstart = () => {
+                    console.log('Speech recognition started successfully');
+                    voiceButton.style.background = '#e53e3e';
+                    voiceButton.textContent = '🔴';
+                    voiceButton.classList.add('listening');
+                    isListening = true;
+                };
+
+                recognition.onend = () => {
+                    console.log('Speech recognition ended');
+                    voiceButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    voiceButton.textContent = '🎤';
+                    voiceButton.classList.remove('listening');
+                    isListening = false;
+                    recognition = null;
+                };
+
+                recognition.onresult = (event) => {
+                    console.log('Speech recognition result received');
+                    
+                    if (event.results.length > 0 && event.results[0].length > 0) {
+                        const transcript = event.results[0][0].transcript;
+                        console.log('Transcript:', transcript);
+                        
+                        if (transcript.trim()) {
+                            document.getElementById('userInput').value = transcript;
+                            sendMessage();
+                        }
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    isListening = false;
+                    recognition = null;
+                    
+                    const voiceButton = document.querySelector('.voice-button');
+                    voiceButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    voiceButton.textContent = '🎤';
+                    voiceButton.classList.remove('listening');
+                    
+                    if (event.error !== 'aborted') {
+                        addMessageToChatbox('bot', `🎤 Speech recognition error: ${event.error}. Please try again.`);
+                    }
+                };
+
+                // Start recognition
+                recognition.start();
+                
+            } catch (error) {
+                console.error('Error creating or starting speech recognition:', error);
+                isListening = false;
+                recognition = null;
+                
+                const voiceButton = document.querySelector('.voice-button');
+                voiceButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                voiceButton.textContent = '🎤';
+                voiceButton.classList.remove('listening');
+            }
+        }
+
+        function resetConversation() {
+            if (confirm('Are you sure you want to start a new spiritual conversation? This will clear the current chat history.')) {
+                // Stop any ongoing speech
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                }
+
+                // Stop speech recognition if active
+                if (isListening && recognition) {
+                    recognition.stop();
+                }
+
+                // Clear the chatbox
+                const chatbox = document.getElementById('chatbox');
+                chatbox.innerHTML = '';
+
+                // Reset conversation on server
+                fetch('/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(() => {
+                    // Get new greeting
+                    return fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: '' })
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    addMessageToChatbox('bot', data.response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    addMessageToChatbox('bot', 'Sorry, there was an error resetting the conversation. Please refresh the page.');
+                });
+            }
+        }
+
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Send initial message to get greeting
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: '' })
+        })
+        .then(response => response.json())
+        .then(data => {
+            addMessageToChatbox('bot', data.response);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            addMessageToChatbox('bot', 'Sorry, there was an error initializing the chat. Please refresh the page.');
+        });
+    </script>
+</body>
+</html>

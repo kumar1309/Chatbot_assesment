@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9f5ff; /* Light background color */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #007bff; /* Primary color for headers */
+}
+
+.chatbox {
+    border: 1px solid #007bff; /* Primary border color */
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 300px;
+    background-color: #f0faff; /* Light chat background color */
+}
+
+.chat-history {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.input-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+textarea {
+    width: 70%;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.message {
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.user-message {
+    background-color: #cce5ff; /* Light blue for user messages */
+    align-self: flex-end; /* Align user messages to the right */
+}
+
+.bot-message {
+    background-color: #e2e3e5; /* Light gray for bot messages */
+}
+
+.recommendations {
+    margin-top: 20px;
+}
+
+.recommendations ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendations a {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* No underline */
+}
+
+.recommendations a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
