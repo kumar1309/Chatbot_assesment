@@ -10,7 +10,7 @@ app.secret_key = 'your-secret-key-123'  # Required for session management
 socketio = SocketIO(app)
 
 # Initialize Groq client
-client = Groq(api_key="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")
+client = Groq(api_key="#")
 
 # Store active chats
 active_chats = {}
